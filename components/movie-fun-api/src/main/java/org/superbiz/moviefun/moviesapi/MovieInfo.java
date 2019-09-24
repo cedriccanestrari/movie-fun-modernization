@@ -17,6 +17,9 @@ public class MovieInfo {
     private int year;
     private int rating;
 
+    public MovieInfo() {
+    }
+
     public MovieInfo(String director, String title, String genre, int year, int rating) {
         this.director = director;
         this.title = title;
