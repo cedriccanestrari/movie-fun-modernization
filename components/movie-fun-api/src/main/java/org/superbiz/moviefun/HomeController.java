@@ -1,7 +1,13 @@
-package org.superbiz.moviefun.moviesapi;
+package org.superbiz.moviefun;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.superbiz.moviefun.albumsapi.AlbumFixtures;
+import org.superbiz.moviefun.albumsapi.AlbumInfo;
+import org.superbiz.moviefun.albumsapi.AlbumsClient;
+import org.superbiz.moviefun.moviesapi.MovieFixtures;
+import org.superbiz.moviefun.moviesapi.MovieInfo;
+import org.superbiz.moviefun.moviesapi.MoviesClient;
 
 import java.util.Map;
 
@@ -22,11 +28,13 @@ public class HomeController {
 
     @GetMapping("/")
     public String index() {
+        System.err.println("INDEX");
         return "index";
     }
 
     @GetMapping("/setup")
     public String setup(Map<String, Object> model) {
+        System.err.println("SETUP");
         for (MovieInfo movie : movieFixtures.load()) {
             moviesClient.addMovie(movie);
         }
