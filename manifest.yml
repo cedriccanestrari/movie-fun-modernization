@@ -1,0 +1,24 @@
+---
+applications:
+  - name: movie-fun-app
+    path: applications/movie-fun-app/build/libs/movie-fun-app-1.1.0-SNAPSHOT.war
+    routes:
+      - route: movie-fun-app-cca-ava.apps.evans.pal.pivotal.io
+    services :
+      - photo-storage
+    env :
+      ALBUMS_URL: https://album-service-cca-ava.apps.evans.pal.pivotal.io/albums
+      MOVIES_URL: https://movie-service-cca-ava.apps.evans.pal.pivotal.io/movies
+  - name : movie-service
+    path: applications/movie-service/build/libs/movie-service-1.1.0-SNAPSHOT.jar
+    routes:
+      - route: movie-service-cca-ava.apps.evans.pal.pivotal.io
+    services :
+      - movies-database
+  - name : album-service
+    path: applications/album-service/build/libs/album-service-1.1.0-SNAPSHOT.jar
+    routes:
+      - route: album-service-cca-ava.apps.evans.pal.pivotal.io
+    services :
+      - albums-database
+      - photo-storage

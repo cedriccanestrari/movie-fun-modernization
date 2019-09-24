@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.superbiz.moviefun.movies;
+package org.superbiz.moviefun.moviesapi;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -36,10 +36,10 @@ public class MovieServlet extends HttpServlet {
 
     public static int PAGE_SIZE = 5;
 
-    private MoviesBean moviesBean;
+    private MoviesClient MoviesClient;
 
-    public MovieServlet(MoviesBean moviesBean) {
-        this.moviesBean = moviesBean;
+    public MovieServlet(MoviesClient MoviesClient) {
+        this.MoviesClient = MoviesClient;
     }
 
     @Override
@@ -63,9 +63,9 @@ public class MovieServlet extends HttpServlet {
             int rating = Integer.parseInt(request.getParameter("rating"));
             int year = Integer.parseInt(request.getParameter("year"));
 
-            Movie movie = new Movie(title, director, genre, rating, year);
+            MovieInfo movieInfo = new MovieInfo(title, director, genre, rating, year);
 
-            moviesBean.addMovie(movie);
+            MoviesClient.addMovie(movieInfo);
             response.sendRedirect("moviefun");
             return;
 
@@ -73,7 +73,7 @@ public class MovieServlet extends HttpServlet {
 
             String[] ids = request.getParameterValues("id");
             for (String id : ids) {
-                moviesBean.deleteMovieId(new Long(id));
+                MoviesClient.deleteMovieId(new Long(id));
             }
 
             response.sendRedirect("moviefun");
@@ -86,11 +86,11 @@ public class MovieServlet extends HttpServlet {
             int count = 0;
 
             if (StringUtils.isEmpty(key) || StringUtils.isEmpty(field)) {
-                count = moviesBean.countAll();
+                count = MoviesClient.countAll();
                 key = "";
                 field = "";
             } else {
-                count = moviesBean.count(field, key);
+                count = MoviesClient.count(field, key);
             }
 
             int page = 1;
@@ -114,12 +114,12 @@ public class MovieServlet extends HttpServlet {
             }
 
             int start = (page - 1) * PAGE_SIZE;
-            List<Movie> range;
+            List<MovieInfo> range;
 
             if (StringUtils.isEmpty(key) || StringUtils.isEmpty(field)) {
-                range = moviesBean.findAll(start, PAGE_SIZE);
+                range = MoviesClient.findAll(start, PAGE_SIZE);
             } else {
-                range = moviesBean.findRange(field, key, start, PAGE_SIZE);
+                range = MoviesClient.findRange(field, key, start, PAGE_SIZE);
             }
 
             int end = start + range.size();
