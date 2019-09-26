@@ -2,6 +2,8 @@ spring:
   mvc.view:
     prefix: /WEB-INF/
     suffix: .jsp
+  application:
+    name: movie-fun-app
 
 logging.level:
   root: WARN
